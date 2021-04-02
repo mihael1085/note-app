@@ -1,23 +1,30 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useContext, useEffect } from 'react'
 import {Form} from '../components/Form'
 import {Notes} from '../components/Notes'
+import {Loader} from '../components/Loader'
+import { FirebaseContext } from '../context/firebase/firebaseContext'
 
 export const Home = () => {
 
-    // const notes = [
-    //     {id: 0, title: 'купить хлеб'},
-    //     {id: 1, title: 'позвонить на работу'},
-    //     {id: 2, title: 'проготовить ужин'}
-    // ]
+    const { loading, notes, fetchNotes} = useContext(FirebaseContext)
 
-    const notes = new Array(3)
-        .fill('')
-        .map((_, i) => ({id: i, title:`заметка номер ${i+1}`}))
+    useEffect(() => {
+        fetchNotes()
+        //eslint-disable-next-line
+    }, [])
 
     return (
         <Fragment>
             <Form />
-            <Notes notes = {notes}/>
+
+            <hr/>
+
+            { loading 
+                ? <Loader/> 
+                : <Notes notes = {notes}/>
+            }
+
+            
         </Fragment>
     )
 }

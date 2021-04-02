@@ -1,5 +1,6 @@
 import React, {useState, useContext} from 'react'
 import { AlertContext } from '../context/alert/alertContext'
+import {FirebaseContext} from '../context/firebase/firebaseContext'
 
 
 export const Form = () => {
@@ -10,7 +11,11 @@ export const Form = () => {
     const submitHandler = (event) => {
         event.preventDefault()
 
-        alert.show(value, 'success')
+        if(value.trim()) {
+            alert.show("Заметка была создана", 'success')
+            setValue('')
+        } else 
+            alert.show("Введите название заметки")
     }
 
     return (
